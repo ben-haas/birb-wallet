@@ -43,6 +43,8 @@
 	"type": "module",
 	"dependencies": {
 		"@taquito/taquito": "^17.5.1",
-		"@trezor/connect-web": "^9.1.7"
+		"@trezor/connect-web": "^9.1.7",
+		"@tzkt/ext-taquito": "^2.2.1",
+		"@tzkt/sdk-api": "^2.2.1"
 	}
 }
