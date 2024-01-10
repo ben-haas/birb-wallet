@@ -42,9 +42,12 @@
 	},
 	"type": "module",
 	"dependencies": {
+		"@fortawesome/fontawesome-svg-core": "^6.5.1",
+		"@fortawesome/free-solid-svg-icons": "^6.5.1",
 		"@taquito/taquito": "^17.5.1",
 		"@trezor/connect-web": "^9.1.7",
 		"@tzkt/ext-taquito": "^2.2.1",
-		"@tzkt/sdk-api": "^2.2.1"
+		"@tzkt/sdk-api": "^2.2.1",
+		"svelte-fa": "^4.0.1"
 	}
 }
