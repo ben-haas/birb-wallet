@@ -3,7 +3,7 @@
 	import {
 		AppBar,
 		AppShell,
-		Avatar,
+		LightSwitch,
 		Drawer,
 		Modal,
 		Toast,
@@ -19,7 +19,6 @@
 	const drawerStore = getDrawerStore();
 
 	function drawerOpen(): void {
-		console.log('drawer');
 		drawerStore.open({});
 	}
 </script>
@@ -43,7 +42,7 @@
 			</div>
 
 			<svelte:fragment slot="trail">
-				<Avatar initials="PH" background="bg-primary-500" />
+				<LightSwitch />
 			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
