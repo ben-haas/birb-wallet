@@ -7,7 +7,6 @@
 	const accts = data.accountData;
 
 	onMount(() => {
-		console.log('Trezor Connect Initialized');
 		trezorInit();
 	});
 

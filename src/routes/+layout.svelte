@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.css';
+	import { get } from 'svelte/store';
 	import {
 		AppBar,
 		AppShell,
@@ -15,15 +16,17 @@
 	} from '@skeletonlabs/skeleton';
 	import { Fa } from 'svelte-fa';
 	import { faBars, faKiwiBird } from '@fortawesome/free-solid-svg-icons';
+	import { accountStore } from '$lib/stores';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import ConnectModal from '$lib/components/ConnectModal.svelte';
 
 	initializeStores();
 
+	const accts = get(accountStore);
+
 	const modalRegistry: Record<string, ModalComponent> = {
 		connectModal: { ref: ConnectModal }
 	};
-
 	const modalStore = getModalStore();
 	const drawerStore = getDrawerStore();
 
@@ -32,7 +35,9 @@
 		component: 'connectModal'
 	};
 
-	modalStore.trigger(modal);
+	if (accts.length === 0) {
+		modalStore.trigger(modal);
+	}
 
 	function drawerOpen(): void {
 		drawerStore.open({});
