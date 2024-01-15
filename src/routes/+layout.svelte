@@ -8,20 +8,38 @@
 		Modal,
 		Toast,
 		initializeStores,
-		getDrawerStore
+		getDrawerStore,
+		getModalStore,
+		type ModalSettings,
+		type ModalComponent
 	} from '@skeletonlabs/skeleton';
 	import { Fa } from 'svelte-fa';
 	import { faBars, faKiwiBird } from '@fortawesome/free-solid-svg-icons';
 	import Navigation from '$lib/components/Navigation.svelte';
+	import ConnectModal from '$lib/components/ConnectModal.svelte';
 
 	initializeStores();
 
+	const modalRegistry: Record<string, ModalComponent> = {
+		connectModal: { ref: ConnectModal }
+	};
+
+	const modalStore = getModalStore();
 	const drawerStore = getDrawerStore();
+
+	const modal: ModalSettings = {
+		type: 'component',
+		component: 'connectModal'
+	};
+
+	modalStore.trigger(modal);
 
 	function drawerOpen(): void {
 		drawerStore.open({});
 	}
 </script>
+
+<Modal components={modalRegistry} />
 
 <Drawer>
 	<Navigation />

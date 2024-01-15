@@ -1,10 +1,11 @@
 import { localStorageStore } from '@skeletonlabs/skeleton';
-import type { Writable } from 'svelte/store';
+import { writable, type Writable } from 'svelte/store';
 
 type Account = {
-	id: string;
+	id: number;
 	path: string;
 	address: string;
 };
 
 export const accountStore: Writable<Account[]> = localStorageStore('accounts', []);
+export const activeWallet = writable(1);

@@ -1,8 +1,10 @@
 import TrezorConnect from '@trezor/connect-web';
+import { getModalStore } from '@skeletonlabs/skeleton';
+import { get } from 'svelte/store';
 import { accountStore } from './stores';
 
-export const trezorInit = async () => {
-	await TrezorConnect.init({
+export const trezorInit = () => {
+	TrezorConnect.init({
 		lazyLoad: true,
 		popup: true,
 		manifest: {
@@ -12,18 +14,27 @@ export const trezorInit = async () => {
 	});
 };
 
-export const getAddress = async () => {
+export const getAddress = async (id: number) => {
+	const accts = get(accountStore);
+	const modals = getModalStore();
+
 	const result = await TrezorConnect.tezosGetAddress({
-		path: "m/44'/1729'/0'",
+		path: `m/44'/1729'/${id}'`,
 		showOnTrezor: true,
 		chunkify: false
 	});
 
 	if (result.success) {
+		modals.clear();
+		for (let i = 0; i < accts.length; i++) {
+			if (accts[i].address === result.payload.address) {
+				return;
+			}
+		}
 		accountStore.update((accounts) => [
 			...accounts,
 			{
-				id: 'Account 1',
+				id: 0,
 				path: result.payload.serializedPath,
 				address: result.payload.address
 			}
