@@ -8,4 +8,4 @@ type Account = {
 };
 
 export const accountStore: Writable<Account[]> = localStorageStore('accounts', []);
-export const activeWallet = writable(1);
+export const activeWallet = writable(0);
