@@ -12,6 +12,7 @@ const config = {
 	plugins: [
 		skeleton({
 			themes: {
+				preset: ['skeleton'],
 				custom: [birbTheme]
 			}
 		})
