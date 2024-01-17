@@ -4,12 +4,12 @@
 	import { Fa } from 'svelte-fa';
 	import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-	$: active = (id: string) => (id === $activeWallet.toString() ? '!bg-primary-500' : '');
+	$: active = (id: number) => (id === $activeWallet.id ? '!bg-primary-500' : '');
 
 	const drawerStore = getDrawerStore();
 
-	function setActiveWallet(id: number) {
-		activeWallet.set(id);
+	function setActiveWallet(id: number, address: string) {
+		activeWallet.set({ id: id, address: address });
 		drawerStore.close();
 	}
 </script>
@@ -18,7 +18,7 @@
 	<ul>
 		{#each $accountStore as acct}
 			<li>
-				<a href="/" class={active(acct.id.toString())} on:click={() => setActiveWallet(acct.id)}>
+				<a href="/" class={active(acct.id)} on:click={() => setActiveWallet(acct.id, acct.address)}>
 					<span><Avatar initials="ꜩ" background="bg-tertiary-500" width="w-8" /></span>
 					<span class="flex-auto">{acct.id}</span>
 				</a>
