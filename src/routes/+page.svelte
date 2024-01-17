@@ -1,22 +1,15 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getAddress, trezorInit } from '$lib/trezor';
-	import type { PageData } from './$types';
-
-	export let data: PageData;
-	const accts = data.accountData;
+	import { trezorInit } from '$lib/trezor';
+	import { activeWallet, accountStore } from '$lib/stores';
+	import Wallet from '$lib/components/Wallet.svelte';
 
 	onMount(() => {
 		trezorInit();
+		activeWallet.set({ id: $accountStore[0].id, address: $accountStore[0].address });
 	});
-
-	function onConnect(): void {
-		getAddress(0);
-	}
 </script>
 
 <div class="container h-full mx-auto gap-8 flex flex-col">
-	<div class="">
-		<button class="btn variant-ghost" on:click={onConnect}>Connect Trezor</button>
-	</div>
+	<Wallet />
 </div>
