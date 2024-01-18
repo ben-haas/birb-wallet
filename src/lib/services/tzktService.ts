@@ -56,3 +56,28 @@ export const getCounter = async (address: string): Promise<number> => {
 		throw error;
 	}
 };
+
+export const getTransactions = async (address: string, offset: number): Promise<object> => {
+	const url = 'https://api.tzkt.io/v1/operations/transactions?';
+
+	try {
+		const res = await fetch(
+			url +
+				new URLSearchParams({
+					'anyof.sender.target': address,
+					'sort.desc': 'id',
+					offset: offset.toString()
+				})
+		);
+
+		if (!res.ok) {
+			throw new Error('The TZKT API call returned an error response');
+		}
+
+		const data = await res.json();
+		return data;
+	} catch (error) {
+		console.error('There was a problem fetching the wallet transactions:', error);
+		throw error;
+	}
+};
