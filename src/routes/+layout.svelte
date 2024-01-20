@@ -52,16 +52,15 @@
 
 <AppShell slotSidebarLeft="w-0 md:w-52 bg-surface-100">
 	<svelte:fragment slot="header">
-		<AppBar>
+		<AppBar class="shadow-lg">
 			<svelte:fragment slot="lead">
 				<button class="md:hidden" on:click={drawerOpen}>
 					<Fa icon={faBars} size="2x" />
 				</button>
 			</svelte:fragment>
 
-			<div class="flex justify-center">
-				<Fa icon={faKiwiBird} size="2x" />
-				<strong>birb wallet</strong>
+			<div class="flex flex-col items-center">
+				<img src="/logo/birb_logo_md.png" alt="Logo" class="max-w-20 mr-2" />
 			</div>
 
 			<svelte:fragment slot="trail">
