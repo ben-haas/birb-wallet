@@ -53,7 +53,7 @@
 		<p>{balance}ꜩ</p>
 	</section>
 	<footer class="card-footer">
-		<button type="button" class="btn variant-filled">Send</button>
+		<button type="button" class="btn variant-filled-secondary">Send</button>
 		<button type="button" class="btn variant-filled">Receive</button>
 		<button type="button" class="btn variant-filled">Delegate</button>
 	</footer>

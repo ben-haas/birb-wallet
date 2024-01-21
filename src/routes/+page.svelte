@@ -10,6 +10,6 @@
 	});
 </script>
 
-<div class="container h-full mx-auto gap-8 flex flex-col">
+<div class="container h-full mx-auto gap-8 flex flex-col items-center">
 	<Wallet />
 </div>

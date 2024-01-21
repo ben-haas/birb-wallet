@@ -5,17 +5,15 @@
 		AppBar,
 		AppShell,
 		LightSwitch,
-		Drawer,
 		Modal,
 		Toast,
 		initializeStores,
-		getDrawerStore,
 		getModalStore,
 		type ModalSettings,
 		type ModalComponent
 	} from '@skeletonlabs/skeleton';
 	import { Fa } from 'svelte-fa';
-	import { faBars, faKiwiBird } from '@fortawesome/free-solid-svg-icons';
+	import { faBars } from '@fortawesome/free-solid-svg-icons';
 	import { accountStore } from '$lib/stores';
 	import Navigation from '$lib/components/Navigation.svelte';
 	import ConnectModal from '$lib/components/ConnectModal.svelte';
@@ -28,7 +26,6 @@
 		connectModal: { ref: ConnectModal }
 	};
 	const modalStore = getModalStore();
-	const drawerStore = getDrawerStore();
 
 	const modal: ModalSettings = {
 		type: 'component',
@@ -38,34 +35,21 @@
 	if (accts.length === 0) {
 		modalStore.trigger(modal);
 	}
-
-	function drawerOpen(): void {
-		drawerStore.open({});
-	}
 </script>
 
 <Modal components={modalRegistry} />
 
-<Drawer>
-	<Navigation />
-</Drawer>
-
-<AppShell slotSidebarLeft="w-0 md:w-52 bg-surface-100">
+<AppShell slotSidebarLeft="">
 	<svelte:fragment slot="header">
-		<AppBar class="shadow-lg">
-			<svelte:fragment slot="lead">
-				<button class="md:hidden" on:click={drawerOpen}>
-					<Fa icon={faBars} size="2x" />
-				</button>
-			</svelte:fragment>
-
+		<AppBar
+			class="shadow-2xl"
+			background="bg-gradient-to-b variant-gradient-primary-secondary"
+			gridColumns="grid-cols-1"
+		>
 			<div class="flex flex-col items-center">
 				<img src="/logo/birb_logo_md.png" alt="Logo" class="max-w-20 mr-2" />
+				<h2 class="h2">birb</h2>
 			</div>
-
-			<svelte:fragment slot="trail">
-				<LightSwitch />
-			</svelte:fragment>
 		</AppBar>
 	</svelte:fragment>
 

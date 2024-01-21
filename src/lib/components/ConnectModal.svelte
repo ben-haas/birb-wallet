@@ -15,7 +15,7 @@
 	<div class="modal-example-fullscreen {cBase}">
 		<div class="flex flex-col items-center space-y-4">
 			<h2 class="h2">Connect Your Trezor</h2>
-			<button class="btn variant-filled" on:click={connect}>Connect</button>
+			<button class="btn variant-filled-primary" on:click={connect}>Connect</button>
 		</div>
 	</div>
 {/if}
