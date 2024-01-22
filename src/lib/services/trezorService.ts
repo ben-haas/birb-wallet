@@ -1,7 +1,6 @@
 import TrezorConnect from '@trezor/connect-web';
-import { getModalStore } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
-import { accountStore } from './stores';
+import { accountStore } from '../stores';
 
 export const trezorInit = () => {
 	TrezorConnect.init({
@@ -16,7 +15,6 @@ export const trezorInit = () => {
 
 export const getAddress = async (id: number) => {
 	const accts = get(accountStore);
-	const modals = getModalStore();
 
 	const result = await TrezorConnect.tezosGetAddress({
 		path: `m/44'/1729'/${id}'`,
@@ -25,7 +23,6 @@ export const getAddress = async (id: number) => {
 	});
 
 	if (result.success) {
-		modals.clear();
 		for (let i = 0; i < accts.length; i++) {
 			if (accts[i].address === result.payload.address) {
 				return;
