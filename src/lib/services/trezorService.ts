@@ -4,13 +4,18 @@ import { get } from 'svelte/store';
 import { accountStore, activeWallet } from '../stores';
 
 export const trezorInit = () => {
-	TrezorConnect.init({
-		popup: true,
-		manifest: {
-			email: import.meta.env.VITE_TREZOR_MANIFEST_EMAIL,
-			appUrl: import.meta.env.VITE_TREZOR_MANIFEST_APP_URL
-		}
-	});
+	try {
+		TrezorConnect.init({
+			popup: true,
+			manifest: {
+				email: import.meta.env.VITE_TREZOR_MANIFEST_EMAIL,
+				appUrl: import.meta.env.VITE_TREZOR_MANIFEST_APP_URL
+			}
+		});
+	} catch (error) {
+		console.log(`Trezor error: ${error}`);
+		throw error;
+	}
 };
 
 export const getAddress = async (account: number) => {
