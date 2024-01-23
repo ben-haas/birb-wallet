@@ -3,11 +3,8 @@ import { getModalStore } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
 import { accountStore, activeWallet } from '../stores';
 
-//TODO set wallet id based on account and index of path
-
 export const trezorInit = () => {
 	TrezorConnect.init({
-		lazyLoad: true,
 		popup: true,
 		manifest: {
 			email: import.meta.env.VITE_TREZOR_MANIFEST_EMAIL,
