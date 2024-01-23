@@ -7,7 +7,6 @@
 	const customAcct = writable(false);
 
 	let account: number;
-	let index: number;
 
 	function connect(acct: number): void {
 		getAddress(acct);
