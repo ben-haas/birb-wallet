@@ -1,5 +1,6 @@
 <script lang="ts">
 	import '../app.css';
+	import { onMount } from 'svelte';
 	import { get } from 'svelte/store';
 	import {
 		AppBar,
@@ -12,6 +13,7 @@
 		type ModalSettings,
 		type ModalComponent
 	} from '@skeletonlabs/skeleton';
+	import { trezorInit } from '$lib/services/trezorService';
 	import { Fa } from 'svelte-fa';
 	import { faBars } from '@fortawesome/free-solid-svg-icons';
 	import { accountStore } from '$lib/stores';
@@ -35,6 +37,15 @@
 	if (accts.length === 0) {
 		modalStore.trigger(modal);
 	}
+
+	onMount(() => {
+		try {
+			trezorInit();
+		} catch (error) {
+			console.log(`Trezor connect error: ${error}`);
+			throw error;
+		}
+	});
 </script>
 
 <Modal components={modalRegistry} />
