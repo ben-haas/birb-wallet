@@ -6,26 +6,22 @@
 	import { faCopy } from '@fortawesome/free-solid-svg-icons';
 	import { clipboard } from '@skeletonlabs/skeleton';
 
-	let balance: number = 0;
-	let addr: string = '';
-	let alias: string = '';
-	let revealed = false;
-	let delegate = '';
+	let data: WalletData;
+	let loading = true;
+	const mutezPerTez = import.meta.env.VITE_MUTEZ_PER_TEZ;
 
 	$: if ($activeWallet.address) {
+		loading = true;
 		updateData($activeWallet.address);
 	}
 
 	async function updateData(address: string) {
 		try {
-			const data: WalletData = await getWalletData(address);
-			balance = data.balance / 1000000;
-			addr = data.address;
-			alias = data.alias;
-			revealed = data.revealed;
-			delegate = data.delegate.alias;
+			data = await getWalletData(address);
+			loading = false;
 		} catch (error) {
-			console.error('Error fetching balance:', error);
+			console.error('Error updating wallet data:', error);
+			loading = false;
 		}
 	}
 
@@ -38,20 +34,26 @@
 	});
 </script>
 
-<div class="card p-4 max-w-3xl shadow-lg">
-	<header class="card-header flex">
-		<div class="text-xl font-bold mr-4" data-clpboard="address">{addr}</div>
-		<button use:clipboard={{ element: 'address' }}><Fa icon={faCopy} size="lg" /></button>
-	</header>
-	<section class="p-4">
-		{#if alias}
-			<h2>{alias}.tez</h2>
-		{/if}
-		{#if delegate}
-			<h2>Delegate: {delegate}</h2>
-		{/if}
-		<p>{balance}ꜩ</p>
-	</section>
+<div class="card p-4 shadow-lg min-w-full">
+	{#if !loading}
+		<header class="card-header flex flex-col">
+			<h1 class="h1">{data.balance / mutezPerTez}ꜩ</h1>
+		</header>
+		<section class="p-4">
+			<div class="flex flex-row">
+				<div class="text-xl font-bold mr-4" data-clpboard="address">{data.address}</div>
+				<button use:clipboard={{ element: 'address' }}><Fa icon={faCopy} size="lg" /></button>
+			</div>
+			<div>
+				{#if data.alias}
+					<p>{data.alias}.tez</p>
+				{/if}
+			</div>
+			{#if data.delegate}
+				<h2>Delegate: {data.delegate.alias}</h2>
+			{/if}
+		</section>
+	{/if}
 	<footer class="card-footer">
 		<button type="button" class="btn variant-filled-secondary">Send</button>
 		<button type="button" class="btn variant-filled">Receive</button>
