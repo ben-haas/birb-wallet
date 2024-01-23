@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { getWalletData, type WalletData } from '$lib/services/tzktService';
-	import { activeWallet } from '$lib/stores';
+	import { getQuote, getWalletData, type WalletData } from '$lib/services/tzktService';
+	import { activeWallet, currentQuote } from '$lib/stores';
 	import Fa from 'svelte-fa';
 	import { faCopy } from '@fortawesome/free-solid-svg-icons';
 	import { clipboard } from '@skeletonlabs/skeleton';
@@ -13,6 +13,7 @@
 	$: if ($activeWallet.address) {
 		loading = true;
 		updateData($activeWallet.address);
+		getQuote();
 	}
 
 	async function updateData(address: string) {
@@ -28,6 +29,7 @@
 	onMount(async () => {
 		try {
 			await updateData($activeWallet.address);
+			getQuote();
 		} catch (error) {
 			console.error('Error fetching wallet data:', error);
 		}
@@ -38,6 +40,7 @@
 	{#if !loading}
 		<header class="card-header flex flex-col">
 			<h1 class="h1">{data.balance / mutezPerTez}ꜩ</h1>
+			<h3 class="h3">${(($currentQuote * data.balance) / mutezPerTez).toFixed(2)}</h3>
 		</header>
 		<section class="p-4">
 			<div class="flex flex-row">

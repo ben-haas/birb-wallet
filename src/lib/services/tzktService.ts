@@ -1,3 +1,5 @@
+import { currentQuote } from '$lib/stores';
+
 export interface WalletData {
 	type: string;
 	address: string;
@@ -78,6 +80,32 @@ export const getTransactions = async (address: string, offset: number): Promise<
 		return data;
 	} catch (error) {
 		console.error('There was a problem fetching the wallet transactions:', error);
+		throw error;
+	}
+};
+
+export const getQuote = async (): Promise<number> => {
+	const url = 'https://api.tzkt.io/v1/statistics/current?';
+
+	try {
+		const res = await fetch(
+			url +
+				new URLSearchParams({
+					quote: 'Usd',
+					'select.fields': 'quote'
+				})
+		);
+
+		if (!res.ok) {
+			throw new Error('Error getting quote');
+		}
+
+		const data = await res.json();
+		const q = data.usd.toFixed(2);
+		currentQuote.set(q);
+		return q;
+	} catch (error) {
+		console.error('There was an issue fetching Tezos quote: ', error);
 		throw error;
 	}
 };
