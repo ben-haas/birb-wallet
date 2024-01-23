@@ -7,7 +7,7 @@
 	let currentTile = 0;
 
 	function setActiveWallet(id: number, address: string) {
-		activeWallet.set({ id: id, address: address });
+		activeWallet.set({ id: id, address: address, loaded: true });
 	}
 </script>
 
