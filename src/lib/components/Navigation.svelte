@@ -28,7 +28,7 @@
 		</AppRailTile>
 	{/each}
 	<svelte:fragment slot="trail">
-		<AppRailAnchor href="/" target="_blank" title="Add Account" regionLabel="flex justify-center">
+		<AppRailAnchor href="/connect" title="Add Account" regionLabel="flex justify-center">
 			<Fa icon={faPlus} size="2x" />
 		</AppRailAnchor>
 	</svelte:fragment>
