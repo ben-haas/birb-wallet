@@ -1,40 +1,57 @@
 import TrezorConnect from '@trezor/connect-web';
+import { getModalStore } from '@skeletonlabs/skeleton';
 import { get } from 'svelte/store';
-import { accountStore } from '../stores';
+import { accountStore, activeWallet } from '../stores';
+
+//TODO set wallet id based on account and index of path
 
 export const trezorInit = () => {
 	TrezorConnect.init({
 		lazyLoad: true,
 		popup: true,
 		manifest: {
-			email: 'birb@birbwallet.xyz',
-			appUrl: 'http://birbwallet.xyz'
+			email: import.meta.env.VITE_TREZOR_MANIFEST_EMAIL,
+			appUrl: import.meta.env.VITE_TREZOR_MANIFEST_APP_URL
 		}
 	});
 };
 
-export const getAddress = async (id: number) => {
+export const getAddress = async (account: number) => {
 	const accts = get(accountStore);
+	const modals = getModalStore();
 
-	const result = await TrezorConnect.tezosGetAddress({
-		path: `m/44'/1729'/${id}'`,
-		showOnTrezor: true,
-		chunkify: false
-	});
+	console.log(`Getting address for m/44'/1729'/${account}'`);
 
-	if (result.success) {
-		for (let i = 0; i < accts.length; i++) {
-			if (accts[i].address === result.payload.address) {
-				return;
+	try {
+		const result = await TrezorConnect.tezosGetAddress({
+			path: `m/44'/1729'/${account}'`,
+			showOnTrezor: true,
+			chunkify: false
+		});
+
+		if (result.success) {
+			modals.clear();
+			for (let i = 0; i < accts.length; i++) {
+				if (accts[i].address === result.payload.address) {
+					return;
+				}
 			}
+			accountStore.update((accounts) => [
+				...accounts,
+				{
+					id: account,
+					path: result.payload.serializedPath,
+					address: result.payload.address
+				}
+			]);
+			activeWallet.set({
+				id: account,
+				address: result.payload.address,
+				loaded: true
+			});
 		}
-		accountStore.update((accounts) => [
-			...accounts,
-			{
-				id: 0,
-				path: result.payload.serializedPath,
-				address: result.payload.address
-			}
-		]);
+	} catch (error) {
+		console.log(`Trezor connect error: ${error}`);
+		throw error;
 	}
 };
