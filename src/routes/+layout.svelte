@@ -39,12 +39,7 @@
 	}
 
 	onMount(() => {
-		try {
-			trezorInit();
-		} catch (error) {
-			console.log(`Trezor connect error: ${error}`);
-			throw error;
-		}
+		trezorInit();
 	});
 </script>
 
