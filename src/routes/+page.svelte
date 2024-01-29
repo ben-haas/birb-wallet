@@ -19,21 +19,16 @@
 	$: if ($activeWallet.address) {
 		$loading = true;
 		updateData($activeWallet.address);
-		getQuote();
 	}
 
 	async function updateData(address: string): Promise<void> {
-		try {
-			wData = await getWalletData(address);
-			txns = await getTransactions($activeWallet.address);
-			$loading = false;
-		} catch (error) {
-			console.error('Error updating wallet data:', error);
-			$loading = false;
-		}
+		wData = await getWalletData(address);
+		txns = await getTransactions($activeWallet.address);
+		getQuote();
+		$loading = false;
 	}
 
-	onMount(async () => {
+	onMount(() => {
 		if ($accountStore[0]) {
 			activeWallet.set({
 				id: $accountStore[0].id,
@@ -41,8 +36,6 @@
 				loaded: true
 			});
 		}
-		await updateData($activeWallet.address);
-		getQuote();
 	});
 </script>
 
