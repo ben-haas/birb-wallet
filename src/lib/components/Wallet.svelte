@@ -1,42 +1,17 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { getQuote, getWalletData, type WalletData } from '$lib/services/tzktService';
-	import { activeWallet, currentQuote } from '$lib/stores';
+	import { type WalletData } from '$lib/services/tzktService';
+	import { currentQuote } from '$lib/stores';
 	import Fa from 'svelte-fa';
 	import { faCopy } from '@fortawesome/free-solid-svg-icons';
 	import { clipboard } from '@skeletonlabs/skeleton';
 
-	let data: WalletData;
-	let loading = true;
+	export let loading = true;
+	export let data: WalletData;
+
 	const mutezPerTez = import.meta.env.VITE_MUTEZ_PER_TEZ;
-
-	$: if ($activeWallet.address) {
-		loading = true;
-		updateData($activeWallet.address);
-		getQuote();
-	}
-
-	async function updateData(address: string) {
-		try {
-			data = await getWalletData(address);
-			loading = false;
-		} catch (error) {
-			console.error('Error updating wallet data:', error);
-			loading = false;
-		}
-	}
-
-	onMount(async () => {
-		try {
-			await updateData($activeWallet.address);
-			getQuote();
-		} catch (error) {
-			console.error('Error fetching wallet data:', error);
-		}
-	});
 </script>
 
-<div class="card p-4 shadow-lg min-w-full">
+<div class="card p-4 shadow-lg min-w-full min-h-80">
 	{#if !loading}
 		<header class="card-header flex flex-col">
 			<h1 class="h1">{data.balance / mutezPerTez}ꜩ</h1>
@@ -58,8 +33,8 @@
 		</section>
 	{/if}
 	<footer class="card-footer">
-		<button type="button" class="btn variant-filled-secondary">Send</button>
-		<button type="button" class="btn variant-filled">Receive</button>
+		<button type="button" class="btn variant-filled-primary">Send</button>
+		<button type="button" class="btn variant-filled-secondary">Receive</button>
 		<button type="button" class="btn variant-filled">Delegate</button>
 	</footer>
 </div>

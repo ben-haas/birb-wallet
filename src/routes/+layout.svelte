@@ -20,6 +20,10 @@
 	import Navigation from '$lib/components/Navigation.svelte';
 	import ConnectModal from '$lib/components/ConnectModal.svelte';
 
+	//TODO add footer
+	//TODO add lightswitch
+	//TODO add sidebar for mobile
+
 	initializeStores();
 
 	const accts = get(accountStore);

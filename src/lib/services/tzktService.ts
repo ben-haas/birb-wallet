@@ -5,16 +5,38 @@ export interface WalletData {
 	address: string;
 	publicKey: string;
 	revealed: boolean;
-	alias: string;
+	alias: string | null;
 	balance: number;
 	delegate: {
-		alias: string;
-		address: string;
-		active: boolean;
+		alias: string | null;
+		address: string | null;
+		active: boolean | null;
 	};
-	firstActivityTime: string;
-	lastActivityTime: string;
+	firstActivityTime: string | null;
+	lastActivityTime: string | null;
 }
+
+export interface TxnData {
+	type: string | null;
+	level: number;
+	timestamp: string;
+	sender: {
+		alias: string | null;
+		address: string;
+	};
+	target: {
+		alias: string | null;
+		address: string;
+	};
+	amount: number;
+	status: string;
+	parameter: {
+		entrypoint: string | null;
+	} | null;
+	hasInternals: boolean;
+}
+
+export interface Txns extends Array<TxnData> {}
 
 export const getWalletData = async (address: string): Promise<WalletData> => {
 	const url = 'https://api.tzkt.io/v1/accounts?';
@@ -59,7 +81,7 @@ export const getCounter = async (address: string): Promise<number> => {
 	}
 };
 
-export const getTransactions = async (address: string, offset: number): Promise<object> => {
+export const getTransactions = async (address: string): Promise<Txns> => {
 	const url = 'https://api.tzkt.io/v1/operations/transactions?';
 
 	try {
@@ -68,7 +90,8 @@ export const getTransactions = async (address: string, offset: number): Promise<
 				new URLSearchParams({
 					'anyof.sender.target': address,
 					'sort.desc': 'id',
-					offset: offset.toString()
+					limit: '10',
+					'select.fields': 'type,level,timestamp,sender,target,amount,status,parameter,hasInternals'
 				})
 		);
 
