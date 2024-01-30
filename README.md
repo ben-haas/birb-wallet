@@ -1,38 +1,45 @@
-# create-svelte
+<p align="center">
+  <img width="200" height="200" src="https://github.com/ben-haas/birb-wallet/blob/main/static/logo/birb_logo_md.png?raw=true">
+</p>
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+<h1 align="center" style="border-bottom:0">birb wallet</h1>
+<h3 align="center">A Tezos wallet for Trezor.</h3>
 
-## Creating a project
+</br>
+</br>
 
-If you're seeing this, you've probably already done this step. Congrats!
+## Features
 
-```bash
-# create a new project in the current directory
-npm create svelte@latest
+- Create Tezos addresses with your Trezor hardware wallet
+- Send and Receive Tezos
+- Manage Delegations
 
-# create a new project in my-app
-npm create svelte@latest my-app
+## Setup
+
+### .env
+
+Create a `.env ` file using the included template.
+
+```yaml
+# Required for the Trezor api
+VITE_TREZOR_MANIFEST_EMAIL=""
+VITE_TREZOR_MANIFEST_APP_URL=""
+
+# There are 1,000,000 mutez per tezos
+VITE_MUTEZ_PER_TEZ=1000000
+
+# Default derivation path for creating/connect accounts
+VITE_ACCOUNT_DEFAULT="m/44'/1729'/0'/0'"
 ```
 
-## Developing
+### Sveltekit Server
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+This project uses [Sveltekit](https://kit.svelte.dev/)
 
 ```bash
+# Install dependencies
+npm install
+
+# Start dev server
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
-
-## Building
-
-To create a production version of your app:
-
-```bash
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
