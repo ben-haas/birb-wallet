@@ -34,7 +34,10 @@ VITE_ACCOUNT_DEFAULT="m/44'/1729'/0'/0'"
 
 ### Sveltekit Server
 
-This project uses [Sveltekit](https://kit.svelte.dev/)
+This project uses
+
+- [Sveltekit](https://kit.svelte.dev/)
+- [Skeleton UI]()
 
 ```bash
 # Install dependencies
