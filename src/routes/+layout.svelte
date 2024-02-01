@@ -71,5 +71,11 @@
 		<slot />
 	</div>
 
-	<svelte:fragment slot="pageFooter">Page Footer</svelte:fragment>
+	<svelte:fragment slot="pageFooter">
+		<div class="flex justify-end p-4">
+			<a href="https://github.com/ben-haas/birb-wallet" target="_blank">
+				<img src="github-mark.svg" alt="github logo" height="40" width="40" />
+			</a>
+		</div>
+	</svelte:fragment>
 </AppShell>
