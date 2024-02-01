@@ -1,21 +1,20 @@
 <script lang="ts">
-	import { writable } from 'svelte/store';
+	import { showTransactions } from '$lib/stores';
 	import Fa from 'svelte-fa';
 	import { faArrowUp, faArrowDown } from '@fortawesome/free-solid-svg-icons';
 	import { type Txns } from '$lib/services/tzktService';
 
 	export let txns: Txns = [];
-	const show = writable(false);
 	const mutezPerTez = import.meta.env.VITE_MUTEZ_PER_TEZ;
 	const tzktUrl = 'https://tzkt.io/';
 
 	const toggleShow = () => {
-		$show ? show.set(false) : show.set(true);
+		$showTransactions ? showTransactions.set(false) : showTransactions.set(true);
 	};
 </script>
 
 <div class="flex justify-center">
-	{#if !$show}
+	{#if !$showTransactions}
 		<button class="btn bg-gradient-to-br variant-gradient-primary-secondary" on:click={toggleShow}
 			>View Transations</button
 		>
@@ -26,7 +25,7 @@
 	{/if}
 </div>
 
-{#if $show}
+{#if $showTransactions}
 	<div class="card p-4 shadow-lg min-w-full min-h-80">
 		{#each txns as txn}
 			<div
