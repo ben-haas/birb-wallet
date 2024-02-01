@@ -1,3 +1,5 @@
+import { TezosToolkit } from '@taquito/taquito';
+const tz = new TezosToolkit('https://mainnet.ecadinfra.com/');
 import { type Signer } from '@taquito/taquito';
 
 export class ReadOnlySigner implements Signer {
@@ -27,3 +29,18 @@ export class ReadOnlySigner implements Signer {
 		throw new Error('Cannot sign');
 	}
 }
+
+export const estimateTransaction = (address: string, amount: number) => {
+	tz.estimate
+		.transfer({ to: address, amount: amount })
+		.then((est) => {
+			console.log(`burnFeeMutez : ${est.burnFeeMutez}, 
+    gasLimit : ${est.gasLimit}, 
+    minimalFeeMutez : ${est.minimalFeeMutez}, 
+    storageLimit : ${est.storageLimit}, 
+    suggestedFeeMutez : ${est.suggestedFeeMutez}, 
+    totalCost : ${est.totalCost}, 
+    usingBaseFeeMutez : ${est.usingBaseFeeMutez}`);
+		})
+		.catch((error) => console.table(`Error: ${JSON.stringify(error, null, 2)}`));
+};

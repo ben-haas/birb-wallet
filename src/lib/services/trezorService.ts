@@ -59,6 +59,18 @@ export const getAddress = async (account: number) => {
 	}
 };
 
+export const getPublicKey = async (path: string) => {
+	const result = await TrezorConnect.tezosGetPublicKey({
+		path: path,
+		showOnTrezor: false,
+		chunkify: false
+	});
+
+	if (result.success) {
+		console.log(result.payload);
+	}
+};
+
 export const signTransaction = async (data: SigningData) => {
 	console.log(data);
 };
