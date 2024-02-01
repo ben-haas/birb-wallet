@@ -8,9 +8,10 @@
 		type WalletData,
 		type Txns
 	} from '$lib/services/tzktService';
-	import { activeWallet, accountStore } from '$lib/stores';
+	import { activeWallet, accountStore, connectingWallet } from '$lib/stores';
 	import Transactions from '$lib/components/Transactions.svelte';
 	import Wallet from '$lib/components/Wallet.svelte';
+	import ConnectWallet from '$lib/components/ConnectWallet.svelte';
 
 	let wData: WalletData;
 	let txns: Txns = [];
@@ -40,6 +41,11 @@
 </script>
 
 <div class="container h-full mx-auto gap-8 flex flex-col items-center">
-	<Wallet loading={$loading} data={wData} />
-	<Transactions {txns} />
+	{#if !$connectingWallet}
+		<Wallet loading={$loading} data={wData} />
+		<Transactions {txns} />
+	{/if}
+	{#if $connectingWallet}
+		<ConnectWallet />
+	{/if}
 </div>

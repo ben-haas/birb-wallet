@@ -1,24 +1,27 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
 	import { getAddress } from '$lib/services/trezorService';
-	import { accountStore } from '$lib/stores';
+	import { accountStore, connectingWallet } from '$lib/stores';
 	import { get } from 'svelte/store';
 	import { writable } from 'svelte/store';
 
 	const customAcct = writable(false);
 	let account: number;
 
-	function connect(acct: number): void {
+	const connect = (acct: number): void => {
 		getAddress(acct);
-	}
+	};
 
-	function getNextAcctId(): void {
+	const getNextAcctId = (): void => {
 		const connectedAccts = get(accountStore);
 		const max = connectedAccts.reduce(function (prev, current) {
 			return prev && prev.id > current.id ? prev : current;
 		});
 		connect(max.id + 1);
-	}
+	};
+
+	const stopConnectingWallet = () => {
+		connectingWallet.set(false);
+	};
 </script>
 
 <div class="flex flex-col items-center space-y-4">
@@ -48,13 +51,12 @@
 		on:click={() => ($customAcct ? connect(account) : getNextAcctId())}>Add Account</button
 	>
 	{#if !$customAcct}
-		<a href="/connect" class="anchor" on:click={() => customAcct.set(true)}
+		<a href="#top" class="anchor" on:click={() => customAcct.set(true)}
 			>Use custom derivation path</a
 		>
 	{:else if $customAcct}
-		<a href="/connect" class="anchor" on:click={() => customAcct.set(false)}
-			>Use next derivation path</a
+		<a href="#top" class="anchor" on:click={() => customAcct.set(false)}>Use next derivation path</a
 		>
 	{/if}
-	<button class="btn-sm variant-soft-primary" on:click={() => goto('/')}>Back</button>
+	<button class="btn-sm variant-soft-primary" on:click={stopConnectingWallet}>Back</button>
 </div>
