@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type WalletData } from '$lib/services/tzktService';
+	import { type WalletData } from '../../types/walletTypes';
 	import { currentQuote } from '$lib/stores';
 	import Fa from 'svelte-fa';
 	import { faCopy } from '@fortawesome/free-solid-svg-icons';
