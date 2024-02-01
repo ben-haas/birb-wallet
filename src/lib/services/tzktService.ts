@@ -1,41 +1,5 @@
 import { currentQuote } from '$lib/stores';
-
-export interface WalletData {
-	type: string | null;
-	address: string;
-	publicKey: string | null;
-	revealed: boolean;
-	alias: string | null;
-	balance: number;
-	delegate: {
-		alias?: string | null;
-		address?: string | null;
-		active?: boolean | null;
-	} | null;
-	firstActivityTime: string | null;
-	lastActivityTime: string | null;
-}
-
-export interface TxnData {
-	type: string | null;
-	level: number;
-	hash: string;
-	timestamp: string;
-	sender: {
-		alias: string | null;
-		address: string;
-	};
-	target: {
-		alias: string | null;
-		address: string;
-	};
-	amount: number;
-	status: string;
-	parameter: {
-		entrypoint: string | null;
-	};
-	hasInternals: boolean;
-}
+import { type WalletData, type TxnData } from '../../types/walletTypes';
 
 export interface Txns extends Array<TxnData> {}
 

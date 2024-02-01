@@ -1,13 +1,8 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { writable } from 'svelte/store';
-	import {
-		getQuote,
-		getWalletData,
-		getTransactions,
-		type WalletData,
-		type Txns
-	} from '$lib/services/tzktService';
+	import { getQuote, getWalletData, getTransactions, type Txns } from '$lib/services/tzktService';
+	import { type WalletData } from '../types/walletTypes';
 	import { activeWallet, accountStore, connectingWallet } from '$lib/stores';
 	import Transactions from '$lib/components/Transactions.svelte';
 	import Wallet from '$lib/components/Wallet.svelte';

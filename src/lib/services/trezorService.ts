@@ -1,5 +1,6 @@
 import TrezorConnect from '@trezor/connect-web';
 import { getModalStore } from '@skeletonlabs/skeleton';
+import { type SigningData } from '../../types/walletTypes';
 import { get } from 'svelte/store';
 import { accountStore, activeWallet } from '../stores';
 
@@ -56,4 +57,8 @@ export const getAddress = async (account: number) => {
 		console.log(`Trezor connect error: ${error}`);
 		throw error;
 	}
+};
+
+export const signTransaction = async (data: SigningData) => {
+	console.log(data);
 };
